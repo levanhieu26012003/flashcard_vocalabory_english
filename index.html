@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -33,14 +34,14 @@
         .header h1 {
             font-size: 2.5rem;
             margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
         }
 
         .nav-tabs {
             display: flex;
             justify-content: center;
             margin-bottom: 30px;
-            background: rgba(255,255,255,0.1);
+            background: rgba(255, 255, 255, 0.1);
             border-radius: 15px;
             padding: 5px;
             backdrop-filter: blur(10px);
@@ -59,12 +60,12 @@
         }
 
         .tab-button.active {
-            background: rgba(255,255,255,0.2);
+            background: rgba(255, 255, 255, 0.2);
             transform: translateY(-2px);
         }
 
         .tab-button:hover {
-            background: rgba(255,255,255,0.15);
+            background: rgba(255, 255, 255, 0.15);
         }
 
         .tab-content {
@@ -72,7 +73,7 @@
             background: white;
             border-radius: 20px;
             padding: 30px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
             backdrop-filter: blur(10px);
         }
 
@@ -99,7 +100,8 @@
             color: #555;
         }
 
-        .form-group input, .form-group textarea {
+        .form-group input,
+        .form-group textarea {
             padding: 12px;
             border: 2px solid #e0e0e0;
             border-radius: 10px;
@@ -107,7 +109,8 @@
             transition: border-color 0.3s ease;
         }
 
-        .form-group input:focus, .form-group textarea:focus {
+        .form-group input:focus,
+        .form-group textarea:focus {
             outline: none;
             border-color: #667eea;
         }
@@ -160,7 +163,8 @@
             transform: rotateY(180deg);
         }
 
-        .flashcard-front, .flashcard-back {
+        .flashcard-front,
+        .flashcard-back {
             position: absolute;
             width: 100%;
             height: 100%;
@@ -171,7 +175,7 @@
             justify-content: center;
             font-size: 24px;
             font-weight: 600;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
         }
 
         .flashcard-front {
@@ -364,21 +368,23 @@
                 width: 300px;
                 height: 200px;
             }
-            
-            .flashcard-front, .flashcard-back {
+
+            .flashcard-front,
+            .flashcard-back {
                 font-size: 18px;
             }
-            
+
             .container {
                 padding: 10px;
             }
-            
+
             .nav-tabs {
                 flex-wrap: wrap;
             }
         }
     </style>
 </head>
+
 <body>
     <div class="container">
         <div class="header">
@@ -449,19 +455,8 @@
                             </div>
                         </div>
                         <div class="option-group">
-                            <h3>Lọc theo ngày</h3>
-                            <div class="checkbox-group">
-                                <input type="checkbox" id="filter-today">
-                                <label for="filter-today">Hôm nay</label>
-                            </div>
-                            <div class="checkbox-group">
-                                <input type="checkbox" id="filter-week">
-                                <label for="filter-week">Tuần này</label>
-                            </div>
-                            <div class="checkbox-group">
-                                <input type="checkbox" id="filter-all" checked>
-                                <label for="filter-all">Tất cả</label>
-                            </div>
+                            <h3>Chọn ngày học</h3>
+                            <input type="date" id="selected-date" name="selected-date">
                         </div>
                     </div>
                     <div style="text-align: center;">
@@ -471,11 +466,12 @@
 
                 <div class="test-question" id="test-question" style="display: none;">
                     <div class="question-text" id="question-text"></div>
-                    <input type="text" class="answer-input" id="answer-input" placeholder="Nhập câu trả lời..." 
-                           onkeypress="handleTestKeyPress(event)">
+                    <input type="text" class="answer-input" id="answer-input" placeholder="Nhập câu trả lời..."
+                        onkeypress="handleTestKeyPress(event)">
                     <div style="margin-top: 20px;">
                         <button class="btn btn-primary" onclick="checkAnswer()">Kiểm tra</button>
-                        <button class="btn" onclick="skipQuestion()" style="background: #6c757d; color: white; margin-left: 10px;">Bỏ qua</button>
+                        <button class="btn" onclick="skipQuestion()"
+                            style="background: #6c757d; color: white; margin-left: 10px;">Bỏ qua</button>
                     </div>
                     <div class="test-result" id="test-result"></div>
                 </div>
@@ -510,47 +506,61 @@
         <!-- List Tab -->
         <div id="list-tab" class="tab-content">
             <h2 style="text-align: center; margin-bottom: 30px; color: #555;">Danh sách từ vựng</h2>
-            
+
             <!-- Sync Section -->
             <div style="background: #f0f8ff; padding: 20px; border-radius: 15px; margin-bottom: 20px;">
                 <h3 style="text-align: center; margin-bottom: 15px; color: #1976d2;">🔄 Đồng bộ dữ liệu</h3>
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; margin-bottom: 15px;">
-                    <button class="btn" onclick="generateShareLink()" style="background: #4285f4; color: white;">📱 Tạo link chia sẻ</button>
-                    <button class="btn" onclick="showQRCode()" style="background: #ff9800; color: white;">📲 Tạo QR Code</button>
-                    <button class="btn" onclick="showSyncInput()" style="background: #9c27b0; color: white;">🔗 Nhập link đồng bộ</button>
+                <div
+                    style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; margin-bottom: 15px;">
+                    <button class="btn" onclick="generateShareLink()" style="background: #4285f4; color: white;">📱 Tạo
+                        link chia sẻ</button>
+                    <button class="btn" onclick="showQRCode()" style="background: #ff9800; color: white;">📲 Tạo QR
+                        Code</button>
+                    <button class="btn" onclick="showSyncInput()" style="background: #9c27b0; color: white;">🔗 Nhập
+                        link đồng bộ</button>
                 </div>
-                
+
                 <!-- Share Link Display -->
                 <div id="share-link-section" style="display: none; text-align: center; margin-top: 15px;">
                     <p style="margin-bottom: 10px; color: #666;">Link chia sẻ (có hiệu lực 24h):</p>
-                    <div style="background: white; padding: 10px; border-radius: 8px; border: 1px solid #ddd; margin-bottom: 10px;">
-                        <input type="text" id="share-link" readonly style="width: 100%; border: none; text-align: center; font-size: 14px; color: #333;">
+                    <div
+                        style="background: white; padding: 10px; border-radius: 8px; border: 1px solid #ddd; margin-bottom: 10px;">
+                        <input type="text" id="share-link" readonly
+                            style="width: 100%; border: none; text-align: center; font-size: 14px; color: #333;">
                     </div>
-                    <button class="btn" onclick="copyShareLink()" style="background: #28a745; color: white; font-size: 14px;">📋 Sao chép link</button>
+                    <button class="btn" onclick="copyShareLink()"
+                        style="background: #28a745; color: white; font-size: 14px;">📋 Sao chép link</button>
                 </div>
 
                 <!-- QR Code Display -->
                 <div id="qr-code-section" style="display: none; text-align: center; margin-top: 15px;">
                     <p style="margin-bottom: 10px; color: #666;">Quét QR Code để đồng bộ:</p>
-                    <div id="qr-code-container" style="display: flex; justify-content: center; margin-bottom: 10px;"></div>
+                    <div id="qr-code-container" style="display: flex; justify-content: center; margin-bottom: 10px;">
+                    </div>
                 </div>
 
                 <!-- Sync Input -->
                 <div id="sync-input-section" style="display: none; margin-top: 15px;">
-                    <input type="text" id="sync-link-input" placeholder="Dán link đồng bộ vào đây..." style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px; margin-bottom: 10px;">
+                    <input type="text" id="sync-link-input" placeholder="Dán link đồng bộ vào đây..."
+                        style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px; margin-bottom: 10px;">
                     <div style="text-align: center;">
-                        <button class="btn" onclick="syncFromLink()" style="background: #2196f3; color: white;">🔄 Đồng bộ dữ liệu</button>
-                        <button class="btn" onclick="hideSyncInput()" style="background: #6c757d; color: white; margin-left: 10px;">❌ Hủy</button>
+                        <button class="btn" onclick="syncFromLink()" style="background: #2196f3; color: white;">🔄 Đồng
+                            bộ dữ liệu</button>
+                        <button class="btn" onclick="hideSyncInput()"
+                            style="background: #6c757d; color: white; margin-left: 10px;">❌ Hủy</button>
                     </div>
                 </div>
             </div>
 
             <!-- Data Management -->
             <div style="text-align: center; margin-bottom: 20px;">
-                <button class="btn" onclick="exportData()" style="background: #28a745; color: white;">📥 Xuất file</button>
+                <button class="btn" onclick="exportData()" style="background: #28a745; color: white;">📥 Xuất
+                    file</button>
                 <input type="file" id="import-file" accept=".json" style="display: none;" onchange="importData(event)">
-                <button class="btn" onclick="document.getElementById('import-file').click()" style="background: #17a2b8; color: white; margin-left: 10px;">📤 Nhập file</button>
-                <button class="btn" onclick="clearAllData()" style="background: #dc3545; color: white; margin-left: 10px;">🗑️ Xóa tất cả</button>
+                <button class="btn" onclick="document.getElementById('import-file').click()"
+                    style="background: #17a2b8; color: white; margin-left: 10px;">📤 Nhập file</button>
+                <button class="btn" onclick="clearAllData()"
+                    style="background: #dc3545; color: white; margin-left: 10px;">🗑️ Xóa tất cả</button>
             </div>
             <div class="word-list" id="word-list"></div>
         </div>
@@ -561,7 +571,7 @@
         let vocabulary = [];
         let currentCardIndex = 0;
         let isCardFlipped = false;
-        
+
         // Test variables
         let testWords = [];
         let currentTestIndex = 0;
@@ -592,7 +602,7 @@
                     const data = JSON.parse(savedData);
                     vocabulary = data.vocabulary || [];
                     currentCardIndex = data.currentCardIndex || 0;
-                    
+
                     // Ensure currentCardIndex is valid
                     if (currentCardIndex >= vocabulary.length) {
                         currentCardIndex = 0;
@@ -606,7 +616,7 @@
         }
 
         // Load data on page load
-        window.onload = function() {
+        window.onload = function () {
             loadData();
             updateFlashcard();
             updateWordList();
@@ -617,14 +627,14 @@
             // Hide all tabs
             const tabs = document.querySelectorAll('.tab-content');
             tabs.forEach(tab => tab.classList.remove('active'));
-            
+
             const buttons = document.querySelectorAll('.tab-button');
             buttons.forEach(btn => btn.classList.remove('active'));
-            
+
             // Show selected tab
             document.getElementById(tabName + '-tab').classList.add('active');
             event.target.classList.add('active');
-            
+
             // Update content when switching tabs
             if (tabName === 'flashcard') {
                 updateFlashcard();
@@ -637,26 +647,26 @@
         function addWord() {
             const englishWord = document.getElementById('english-word').value.trim();
             const vietnameseMeaning = document.getElementById('vietnamese-meaning').value.trim();
-            
+
             if (!englishWord || !vietnameseMeaning) {
                 alert('Vui lòng nhập đầy đủ từ tiếng Anh và nghĩa tiếng Việt!');
                 return;
             }
-            
+
             const newWord = {
                 id: Date.now(),
                 english: englishWord,
                 vietnamese: vietnameseMeaning,
                 dateAdded: new Date().toISOString()
             };
-            
+
             vocabulary.push(newWord);
             saveData(); // Save to localStorage
-            
+
             // Clear inputs
             document.getElementById('english-word').value = '';
             document.getElementById('vietnamese-meaning').value = '';
-            
+
             alert('Đã thêm từ thành công!');
             updateFlashcard();
             updateWordList();
@@ -667,24 +677,24 @@
             const counter = document.getElementById('word-counter');
             const cardFront = document.getElementById('card-front');
             const cardBack = document.getElementById('card-back');
-            
+
             if (vocabulary.length === 0) {
                 counter.textContent = 'Chưa có từ nào';
                 cardFront.textContent = 'Thêm từ để bắt đầu học';
                 cardBack.textContent = 'Nghĩa sẽ hiển thị ở đây';
                 return;
             }
-            
+
             // Ensure current index is valid
             if (currentCardIndex >= vocabulary.length) {
                 currentCardIndex = 0;
             }
-            
+
             const currentWord = vocabulary[currentCardIndex];
             counter.textContent = `Từ ${currentCardIndex + 1} / ${vocabulary.length}`;
             cardFront.textContent = currentWord.english;
             cardBack.textContent = currentWord.vietnamese;
-            
+
             // Reset flip state
             document.getElementById('flashcard').classList.remove('flipped');
             isCardFlipped = false;
@@ -692,7 +702,7 @@
 
         function flipCard() {
             if (vocabulary.length === 0) return;
-            
+
             const flashcard = document.getElementById('flashcard');
             flashcard.classList.toggle('flipped');
             isCardFlipped = !isCardFlipped;
@@ -700,7 +710,7 @@
 
         function nextCard() {
             if (vocabulary.length === 0) return;
-            
+
             currentCardIndex = (currentCardIndex + 1) % vocabulary.length;
             saveData(); // Save current position
             updateFlashcard();
@@ -708,7 +718,7 @@
 
         function previousCard() {
             if (vocabulary.length === 0) return;
-            
+
             currentCardIndex = currentCardIndex === 0 ? vocabulary.length - 1 : currentCardIndex - 1;
             saveData(); // Save current position
             updateFlashcard();
@@ -718,33 +728,34 @@
         function startTest() {
             const enToVi = document.getElementById('en-to-vi').checked;
             const viToEn = document.getElementById('vi-to-en').checked;
-            
+
             if (!enToVi && !viToEn) {
                 alert('Vui lòng chọn ít nhất một hướng dịch!');
                 return;
             }
-            
+
             // Filter words by date
             let filteredWords = vocabulary;
-            
-            if (document.getElementById('filter-today').checked) {
-                const today = new Date().toDateString();
-                filteredWords = vocabulary.filter(word => 
-                    new Date(word.dateAdded).toDateString() === today
-                );
-            } else if (document.getElementById('filter-week').checked) {
-                const weekAgo = new Date();
-                weekAgo.setDate(weekAgo.getDate() - 7);
-                filteredWords = vocabulary.filter(word => 
-                    new Date(word.dateAdded) >= weekAgo
-                );
+
+            const selectedDateInput = document.getElementById('selected-date');
+            const selectedDateValue = selectedDateInput.value;
+
+            if (selectedDateValue) {
+                const selectedDate = new Date(selectedDateValue);
+                selectedDate.setHours(0, 0, 0, 0); // chuẩn hóa về đầu ngày
+
+                filteredWords = vocabulary.filter(word => {
+                    const wordDate = new Date(word.dateAdded);
+                    wordDate.setHours(0, 0, 0, 0); // chuẩn hóa về đầu ngày để so sánh chính xác
+                    return wordDate.getTime() === selectedDate.getTime();
+                });
             }
-            
+
             if (filteredWords.length === 0) {
                 alert('Không có từ nào phù hợp với bộ lọc đã chọn!');
                 return;
             }
-            
+
             // Prepare test questions
             testWords = [];
             filteredWords.forEach(word => {
@@ -763,19 +774,19 @@
                     });
                 }
             });
-            
+
             // Shuffle questions
             testWords = testWords.sort(() => Math.random() - 0.5);
-            
+
             // Reset test state
             currentTestIndex = 0;
             testStats = { total: 0, correct: 0, wrong: 0 };
-            
+
             // Show test UI
             document.getElementById('test-setup').style.display = 'none';
             document.getElementById('test-question').style.display = 'block';
             document.getElementById('test-stats').style.display = 'none';
-            
+
             showNextQuestion();
         }
 
@@ -784,7 +795,7 @@
                 showTestResults();
                 return;
             }
-            
+
             currentQuestion = testWords[currentTestIndex];
             document.getElementById('question-text').textContent = currentQuestion.question;
             document.getElementById('answer-input').value = '';
@@ -796,9 +807,9 @@
             const userAnswer = document.getElementById('answer-input').value.trim().toLowerCase();
             const correctAnswer = currentQuestion.answer.toLowerCase();
             const resultDiv = document.getElementById('test-result');
-            
+
             testStats.total++;
-            
+
             if (userAnswer === correctAnswer) {
                 testStats.correct++;
                 resultDiv.innerHTML = '<div class="correct">✅ Đúng rồi!</div>';
@@ -806,7 +817,7 @@
                 testStats.wrong++;
                 resultDiv.innerHTML = `<div class="incorrect">❌ Sai rồi! Đáp án đúng: <strong>${currentQuestion.answer}</strong></div>`;
             }
-            
+
             setTimeout(() => {
                 currentTestIndex++;
                 showNextQuestion();
@@ -816,10 +827,10 @@
         function skipQuestion() {
             testStats.total++;
             testStats.wrong++;
-            
+
             const resultDiv = document.getElementById('test-result');
             resultDiv.innerHTML = `<div class="incorrect">⏭️ Đã bỏ qua! Đáp án: <strong>${currentQuestion.answer}</strong></div>`;
-            
+
             setTimeout(() => {
                 currentTestIndex++;
                 showNextQuestion();
@@ -835,11 +846,11 @@
         function showTestResults() {
             document.getElementById('test-question').style.display = 'none';
             document.getElementById('test-stats').style.display = 'block';
-            
+
             document.getElementById('total-questions').textContent = testStats.total;
             document.getElementById('correct-answers').textContent = testStats.correct;
             document.getElementById('wrong-answers').textContent = testStats.wrong;
-            
+
             const accuracy = testStats.total > 0 ? Math.round((testStats.correct / testStats.total) * 100) : 0;
             document.getElementById('accuracy').textContent = accuracy + '%';
         }
@@ -853,15 +864,15 @@
         // Word list functionality
         function updateWordList() {
             const wordList = document.getElementById('word-list');
-            
+
             if (vocabulary.length === 0) {
                 wordList.innerHTML = '<p style="text-align: center; color: #666;">Chưa có từ nào. Hãy thêm từ mới!</p>';
                 return;
             }
-            
+
             // Sort by date added (newest first)
             const sortedWords = [...vocabulary].sort((a, b) => new Date(b.dateAdded) - new Date(a.dateAdded));
-            
+
             wordList.innerHTML = sortedWords.map(word => `
                 <div class="word-item">
                     <div class="word-info">
@@ -899,9 +910,9 @@
                 alert('Không có dữ liệu để xuất!');
                 return;
             }
-            
+
             const dataStr = JSON.stringify(vocabulary, null, 2);
-            const dataBlob = new Blob([dataStr], {type: 'application/json'});
+            const dataBlob = new Blob([dataStr], { type: 'application/json' });
             const url = URL.createObjectURL(dataBlob);
             const link = document.createElement('a');
             link.href = url;
@@ -913,9 +924,9 @@
         function importData(event) {
             const file = event.target.files[0];
             if (!file) return;
-            
+
             const reader = new FileReader();
-            reader.onload = function(e) {
+            reader.onload = function (e) {
                 try {
                     const importedData = JSON.parse(e.target.result);
                     if (Array.isArray(importedData)) {
@@ -937,7 +948,7 @@
                 }
             };
             reader.readAsText(file);
-            
+
             // Reset input
             event.target.value = '';
         }
@@ -1020,7 +1031,7 @@
             const shareLink = document.getElementById('share-link');
             shareLink.select();
             shareLink.setSelectionRange(0, 99999);
-            
+
             try {
                 document.execCommand('copy');
                 alert('Đã sao chép link! Gửi link này cho thiết bị khác để đồng bộ.');
@@ -1036,7 +1047,7 @@
 
         function syncFromLink() {
             const syncUrl = document.getElementById('sync-link-input').value.trim();
-            
+
             if (!syncUrl) {
                 alert('Vui lòng nhập link đồng bộ!');
                 return;
@@ -1045,7 +1056,7 @@
             // Extract share ID from URL
             const urlParams = new URLSearchParams(syncUrl.split('?')[1]);
             const shareId = urlParams.get('sync');
-            
+
             if (!shareId) {
                 alert('Link không hợp lệ!');
                 return;
@@ -1056,7 +1067,7 @@
             if (localShareData) {
                 try {
                     const shareData = JSON.parse(localShareData);
-                    
+
                     // Check if expired
                     if (Date.now() > shareData.expires) {
                         alert('Link đã hết hạn!');
@@ -1069,14 +1080,14 @@
                     } else {
                         vocabulary = [...vocabulary, ...shareData.data];
                     }
-                    
+
                     currentCardIndex = 0;
                     saveData();
                     updateWordList();
                     updateFlashcard();
                     hideSyncInput();
                     alert('Đồng bộ thành công!');
-                    
+
                 } catch (error) {
                     alert('Lỗi khi đồng bộ: ' + error.message);
                 }
@@ -1089,14 +1100,14 @@
         function checkSyncOnLoad() {
             const urlParams = new URLSearchParams(window.location.search);
             const shareId = urlParams.get('sync');
-            
+
             if (shareId) {
                 // Auto-show sync input and fill the current URL
                 showTab('list');
                 setTimeout(() => {
                     showSyncInput();
                     document.getElementById('sync-link-input').value = window.location.href;
-                    
+
                     if (confirm('Phát hiện link đồng bộ. Bạn có muốn đồng bộ dữ liệu ngay không?')) {
                         syncFromLink();
                     }
@@ -1105,7 +1116,7 @@
         }
 
         // Update window.onload to include sync check
-        window.onload = function() {
+        window.onload = function () {
             loadData();
             updateFlashcard();
             updateWordList();
@@ -1113,4 +1124,5 @@
         };
     </script>
 </body>
+
 </html>
