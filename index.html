@@ -594,6 +594,8 @@
                 console.log('Không thể lưu dữ liệu:', e);
             }
         }
+        const today = new Date().toISOString().split('T')[0];
+        document.getElementById('selected-date').value = today;
 
         function loadData() {
             try {
@@ -642,6 +644,19 @@
                 updateWordList();
             }
         }
+
+        function speak(text) {
+            if ('speechSynthesis' in window) {
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = 'en-US'; // hoặc 'en-US' nếu đọc tiếng Anh
+                utterance.rate = 1;       // tốc độ đọc (0.1 -> 10)
+                utterance.pitch = 1;      // tông giọng (0 -> 2)
+                window.speechSynthesis.speak(utterance);
+            } else {
+                alert("Trình duyệt không hỗ trợ đọc văn bản!");
+            }
+        }
+
 
         // Add word functionality
         function addWord() {
@@ -816,6 +831,8 @@
                 testStats.wrong++;
                 resultDiv.innerHTML = `<div class="incorrect">❌ Sai rồi! Đáp án đúng: <strong>${currentQuestion.answer}</strong></div>`;
             }
+
+            speak(currentQuestion.question);
 
             setTimeout(() => {
                 currentTestIndex++;
