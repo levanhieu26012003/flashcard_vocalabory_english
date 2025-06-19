@@ -32,7 +32,9 @@ function loadData() {
     try {
         const savedData = localStorage.getItem('vocabularyApp');
         if (savedData) {
-            vocabulary = JSON.parse(saved).map(word => {
+            data = JSON.parse(savedData)
+            console.log(data)
+            vocabulary = data.vocabulary.map(word => {
                 // Thêm isDifficult nếu chưa có
                 if (!word.hasOwnProperty("isDifficult")) {
                     word.isDifficult = false;
