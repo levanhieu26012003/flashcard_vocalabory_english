@@ -32,9 +32,13 @@ function loadData() {
     try {
         const savedData = localStorage.getItem('vocabularyApp');
         if (savedData) {
-            const data = JSON.parse(savedData);
-            vocabulary = data.vocabulary || [];
-            currentCardIndex = data.currentCardIndex || 0;
+            vocabulary = JSON.parse(saved).map(word => {
+                // Thêm isDifficult nếu chưa có
+                if (!word.hasOwnProperty("isDifficult")) {
+                    word.isDifficult = false;
+                }
+                return word;
+            }); currentCardIndex = data.currentCardIndex || 0;
 
             // Ensure currentCardIndex is valid
             if (currentCardIndex >= vocabulary.length) {
