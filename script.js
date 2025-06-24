@@ -156,6 +156,7 @@ function updateFlashcard() {
     // Reset flip state
     document.getElementById('flashcard').classList.remove('flipped');
     isCardFlipped = false;
+    saveData()
 }
 
 function flipCard() {
@@ -345,11 +346,30 @@ function updateWordList() {
                     <div class="word-info">
                         <div class="word-english">${word.english}</div>
                         <div class="word-vietnamese">${word.vietnamese}</div>
-                        <div class="isDif">Khó không? ${word.isDifficult}</div>
+                        <div class="isDif">Khó: ${word.isDifficult}</div>
 
                     </div>
                     <div class="word-date">${new Date(word.dateAdded).toLocaleDateString('vi-VN')}</div>
                     <button class="btn-delete" onclick="deleteWord(${word.id})">🗑️</button>
+                    <button class="btn-modify"  onclick="openEditModal(${word.id})">✏️</button>
+                    <div id="edit-modal" class="modal">
+                    <div class="modal-content">
+                        <span class="close" onclick="closeEditModal()">&times;</span>
+                        <h2>Chỉnh sửa từ vựng</h2>
+                        <input type="hidden" id="edit-id">
+                        
+                        <label for="edit-english">English</label>
+                        <input type="text" id="edit-english" placeholder="Nhập từ tiếng Anh">
+
+                        <label for="edit-vietnamese">Vietnamese</label>
+                        <input type="text" id="edit-vietnamese" placeholder="Nhập nghĩa tiếng Việt">
+
+                        <div class="form-buttons">
+                        <button onclick="saveEdit()" class="btn save">💾 Lưu</button>
+                        <button onclick="closeEditModal()" class="btn cancel">❌ Hủy</button>
+                        </div>
+                    </div>
+                    </div>
                 </div>
             `).join('');
 }
@@ -362,6 +382,40 @@ function deleteWord(id) {
         updateFlashcard();
     }
 }
+
+
+function openEditModal(id) {
+  const word = vocabulary.find(w => w.id === id);
+  if (word) {
+    document.getElementById('edit-id').value = word.id;
+    document.getElementById('edit-english').value = word.english;
+    document.getElementById('edit-vietnamese').value = word.vietnamese;
+    document.getElementById('edit-modal').style.display = 'block';
+  }
+}
+
+function saveEdit() {
+  const id = parseInt(document.getElementById('edit-id').value);
+  const english = document.getElementById('edit-english').value.trim();
+  const vietnamese = document.getElementById('edit-vietnamese').value.trim();
+
+  const index = vocabulary.findIndex(w => w.id === id);
+  if (index !== -1) {
+    vocabulary[index].english = english;
+    vocabulary[index].vietnamese = vietnamese;
+    updateFlashcard(); // cập nhật lại UI
+    closeEditModal();
+  }
+}
+
+function closeEditModal() {
+  document.getElementById('edit-modal').style.display = 'none';
+}
+
+
+
+
+
 
 function clearAllData() {
     if (confirm('⚠️ Bạn có chắc muốn xóa TẤT CẢ dữ liệu? Hành động này không thể hoàn tác!')) {
