@@ -9,6 +9,25 @@
 </head>
 
 <body>
+    <div id="edit-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeEditModal()">&times;</span>
+            <h2>Chỉnh sửa từ vựng</h2>
+            <input type="hidden" id="edit-id">
+
+            <label for="edit-english">English</label>
+            <input type="text" id="edit-english" placeholder="Nhập từ tiếng Anh">
+
+            <label for="edit-vietnamese">Vietnamese</label>
+            <input type="text" id="edit-vietnamese" placeholder="Nhập nghĩa tiếng Việt">
+
+            <div class="form-buttons">
+                <button onclick="saveEdit()" class="btn save">💾 Lưu</button>
+                <button onclick="closeEditModal()" class="btn cancel">❌ Hủy</button>
+            </div>
+        </div>
+    </div>
+
     <div class="container">
         <div class="header">
             <h1>📚 Ứng dụng học từ vựng</h1>
