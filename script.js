@@ -9,7 +9,8 @@ let currentTestIndex = 0;
 let testStats = {
     total: 0,
     correct: 0,
-    wrong: 0
+    wrong: 0,
+    time: 0
 };
 let currentQuestion = null;
 
@@ -33,7 +34,6 @@ function loadData() {
         const savedData = localStorage.getItem('vocabularyApp');
         if (savedData) {
             data = JSON.parse(savedData)
-            console.log(data)
             vocabulary = data.vocabulary.map(word => {
                 // Thêm isDifficult nếu chưa có
                 if (!word.hasOwnProperty("isDifficult")) {
@@ -185,6 +185,7 @@ function previousCard() {
 
 // Test functionality
 function startTest() {
+
     const enToVi = document.getElementById('en-to-vi').checked;
     const viToEn = document.getElementById('vi-to-en').checked;
     const isDifficult = document.getElementById('diff').checked;
@@ -204,7 +205,6 @@ function startTest() {
             .map(input => input.value)
             .filter(date => date); // bỏ qua ngày rỗng
 
-        console.log("Các ngày đã chọn: ",selectedDates)
 
         if (selectedDates) {
             selectedDates.forEach(date => {
@@ -255,7 +255,7 @@ function startTest() {
 
     // Reset test state
     currentTestIndex = 0;
-    testStats = { total: 0, correct: 0, wrong: 0 };
+    testStats = { total: 0, correct: 0, wrong: 0, time: 0 };
 
     // Show test UI
     document.getElementById('test-setup').style.display = 'none';
@@ -263,10 +263,12 @@ function startTest() {
     document.getElementById('test-stats').style.display = 'none';
 
     showNextQuestion();
+    startTestTime();
 }
 
 function showNextQuestion() {
     if (currentTestIndex >= testWords.length) {
+        endTestTime();
         showTestResults();
         return;
     }
@@ -328,6 +330,7 @@ function showTestResults() {
     document.getElementById('total-questions').textContent = testStats.total;
     document.getElementById('correct-answers').textContent = testStats.correct;
     document.getElementById('wrong-answers').textContent = testStats.wrong;
+
 
     const accuracy = testStats.total > 0 ? Math.round((testStats.correct / testStats.total) * 100) : 0;
     document.getElementById('accuracy').textContent = accuracy + '%';
@@ -636,8 +639,6 @@ window.onload = function () {
 };
 
 function modifyDiff() {
-    console.log(currentQuestion)
-    console.log(vocabulary)
 
     const word = vocabulary.find(w => w.english === currentQuestion.question);
     if (word) {
@@ -667,4 +668,19 @@ function formatDate(isoString) {
     const month = String(date.getMonth() + 1).padStart(2, "0"); // tháng bắt đầu từ 0
     const year = date.getFullYear();
     return `${day}/${month}/${year}`;
+}
+
+function startTestTime() {
+    testStats.time = Date.now(); // lưu thời gian bắt đầu
+}
+
+function endTestTime() {
+    const endTime = Date.now();
+    const elapsedSeconds = Math.floor((endTime - testStats.time) / 1000);
+
+    const minutes = Math.floor(elapsedSeconds / 60);
+    const seconds = elapsedSeconds % 60;
+
+    document.getElementById("time-test").innerHTML =
+        `${minutes} phút ${seconds} giây`;
 }
