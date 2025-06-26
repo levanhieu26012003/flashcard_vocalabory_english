@@ -26,7 +26,7 @@ function saveData() {
     }
 }
 const today = new Date().toISOString().split('T')[0];
-document.getElementById('selected-date').value = today;
+document.getElementById('date-picker').value = today;
 
 function loadData() {
     try {
@@ -198,18 +198,26 @@ function startTest() {
     // Filter words by date
     let filteredWords = vocabulary;
     if (!isDifficult) {
-        const selectedDateInput = document.getElementById('selected-date');
-        const selectedDateValue = selectedDateInput.value;
+        const inputs = document.querySelectorAll(".date-picker");
 
-        if (selectedDateValue) {
-            const selectedDate = new Date(selectedDateValue);
-            selectedDate.setHours(0, 0, 0, 0); // chuẩn hóa về đầu ngày
+        const selectedDates = Array.from(inputs)
+            .map(input => input.value)
+            .filter(date => date); // bỏ qua ngày rỗng
 
-            filteredWords = vocabulary.filter(word => {
-                const wordDate = new Date(word.dateAdded);
-                wordDate.setHours(0, 0, 0, 0); // chuẩn hóa về đầu ngày để so sánh chính xác
-                return wordDate.getTime() === selectedDate.getTime();
-            });
+        console.log("Các ngày đã chọn: ",selectedDates)
+
+        if (selectedDates) {
+            selectedDates.forEach(date => {
+                const selectedDate = new Date(date);
+                selectedDate.setHours(0, 0, 0, 0); // chuẩn hóa về đầu ngày
+
+                filteredWords = vocabulary.filter(word => {
+                    const wordDate = new Date(word.dateAdded);
+                    wordDate.setHours(0, 0, 0, 0); // chuẩn hóa về đầu ngày để so sánh chính xác
+                    return wordDate.getTime() === selectedDate.getTime();
+                });
+            })
+
         }
 
         if (filteredWords.length === 0) {
@@ -229,6 +237,7 @@ function startTest() {
             testWords.push({
                 question: word.english,
                 answer: word.vietnamese,
+                date: word.dateAdded,
                 type: 'en-to-vi'
             });
         }
@@ -264,6 +273,7 @@ function showNextQuestion() {
 
     currentQuestion = testWords[currentTestIndex];
     document.getElementById('question-text').textContent = currentQuestion.question;
+    document.getElementById('question-date').textContent = formatDate(currentQuestion.date);
     document.getElementById('answer-input').value = '';
     document.getElementById('test-result').innerHTML = '';
     document.getElementById('answer-input').focus();
@@ -394,10 +404,6 @@ function saveEdit() {
 function closeEditModal() {
     document.getElementById('edit-modal').classList.remove('show');
 }
-
-
-
-
 
 
 function clearAllData() {
@@ -645,4 +651,20 @@ function modifyDifficultForCard() {
         word.isDifficult = !word.isDifficult;
     }
     updateFlashcard()
+}
+
+function addDatePicker() {
+    const container = document.getElementById("date-container");
+    const input = document.createElement("input");
+    input.type = "date";
+    input.className = "date-picker";
+    container.appendChild(input);
+}
+
+function formatDate(isoString) {
+    const date = new Date(isoString);
+    const day = String(date.getDate()).padStart(2, "0");
+    const month = String(date.getMonth() + 1).padStart(2, "0"); // tháng bắt đầu từ 0
+    const year = date.getFullYear();
+    return `${day}/${month}/${year}`;
 }

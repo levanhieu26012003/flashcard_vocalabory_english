@@ -98,7 +98,10 @@
                         </div>
                         <div class="option-group">
                             <h3>Chọn ngày học</h3>
-                            <input type="date" id="selected-date" name="selected-date">
+                            <div id="date-container">
+                                <input type="date" class="date-picker" id="date-picker">
+                            </div>
+                            <button onclick="addDatePicker()">+ Thêm ngày</button>
                             <div class="checkbox-group">
                                 <input type="checkbox" id="diff">
                                 <label for="diff">Từ khó</label>
@@ -112,6 +115,7 @@
 
                 <div class="test-question" id="test-question" style="display: none;">
                     <div class="question-text" id="question-text"></div>
+                    <div class="question-text" id="question-date"></div>
                     <button class="btn btn-primary" onclick="modifyDiff()">Thêm/Xóa ds khó</button>
                     <input type="text" class="answer-input" id="answer-input" placeholder="Nhập câu trả lời..."
                         onkeypress="handleTestKeyPress(event)">
